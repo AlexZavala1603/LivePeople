@@ -15,12 +15,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val txtYear: TextView = findViewById(R.id.txt_year)
 
+        // Obtenemos la lista de personas y sus respectivos años de nacimiento y fallecimiento.
         val peoples = getPeopleList()
+
+        // Usamos esa lista para calcular el año con mayor cantidad de personas.
+        // Esto se hace mediante la clase MaxLivePeopleCalculator.
         val peopleAlive = MaxLivePeopleCalculator(peoples)
 
         txtYear.text = getString(R.string.txt_max_year, peopleAlive.getYearWithMaxPeople().toString())
     }
 
+    // La función retorna la lista de personas
+    // con base en lo que retorna el método readJsonData()
     private fun getPeopleList(): List<People> {
         val gson = Gson()
         val json = readJsonData("data.json")
@@ -29,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         return data.data?.toList() ?: emptyList()
     }
 
+    // Este método es unicamente para leer el contenido del Json
+    // a través de un objeto stream.
     private fun readJsonData(inFile: String): String {
         var tContents = ""
 
